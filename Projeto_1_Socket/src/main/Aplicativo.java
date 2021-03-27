@@ -1,5 +1,6 @@
 package main;
-import interfaceGrafica.Janela;
+import interfaceGrafica.JanelaUsuario;
+import logica.Usuario;
 
 /**
  * @author raulmagalhaes
@@ -9,9 +10,10 @@ public class Aplicativo {
 			
 			
 	public static void main(String[] args) {
-		System.out.println("Abrindo aplicação");
+		System.out.println("Rodando...");
 		
-		Janela j = new Janela();
+		Usuario play1 = new Usuario("Raul");
+		Usuario play2 = new Usuario("Andressa");
 
 	}
 
