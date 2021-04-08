@@ -6,49 +6,53 @@ import java.net.*;
 import java.util.Scanner;
 
 class ServidorThread extends Thread {
-  ServerSocket serverSocket = null;
-  Socket socket = null;
-  static DataOutputStream ostream = null;
-  static int port = 9090;
-  DataInputStream istream  = null;
-  String MRcv= "";
-  static String MSnd= "";
+	ServerSocket servidor = null;
+	Socket socket = null;
+	static DataOutputStream fluxoSaida = null;
+	DataInputStream fluxoEntrada  = null;
+	String MsgRecebida= "";
+	static String MsgEnviada= "";
+	static int port = 9090;
+	private Scanner console;
 
-  ServidorThread(){
-    try {
-      serverSocket = new ServerSocket(port);
-      System.out.println("Aguardando conexão...");
-      socket = serverSocket.accept();
-      System.out.println("Conexão Estabelecida.");
-      ostream = new DataOutputStream(socket.getOutputStream());
-      istream = new DataInputStream(socket.getInputStream());
+	ServidorThread(){
+		try {
+			servidor = new ServerSocket(port);
+			System.out.println("Servidor iniciado. Aguardando conexão...");
+      
+			socket = servidor.accept();
+			System.out.println("Conexão Estabelecida com cliente: " );
+      
+			fluxoSaida = new DataOutputStream(socket.getOutputStream());
+			fluxoEntrada = new DataInputStream(socket.getInputStream());
+			console = new Scanner(System.in);
+      
+			this.start();
+      
+			while(true){
+				System.out.println("Servidor: ");
+				String MsgEnviada = console.nextLine(); 
+				fluxoSaida.writeUTF(MsgEnviada);
+				fluxoSaida.flush();
+			}
+      
+		} catch(Exception e){
+			System.out.println("Erro na conexão com o cliente");
+		}
+	}
 
-      this.start();
+	public void run(){
+		try {
+			while(true){
+				MsgRecebida = fluxoEntrada.readUTF();
+				System.out.println("Cliente: " + MsgRecebida);
+			}
+		} catch(Exception e) {
+			System.out.println("Erro ao receber mensagem do cliente");
+		}
+	}
 
-      Scanner console = new Scanner(System.in);
-      while(true){
-	System.out.println("Mensagem: ");
-        String MSnd = console.nextLine(); 
-        ostream.writeUTF(MSnd);
-        ostream.flush();
-      }
-    } catch(Exception e){
-      System.out.println(e);
-    }
-  }
-
-  public void run(){
-    try {
-      while(true){
-        MRcv = istream.readUTF();
-        System.out.println("Remoto: "+MRcv);
-      }
-    } catch(Exception e) {
-      System.out.println(e);
-    }
-  }
-
-  public static void main(String args[]){
-    new ServidorThread();
-  }
+	public static void main(String args[]){
+		new ServidorThread();
+	}
 }
