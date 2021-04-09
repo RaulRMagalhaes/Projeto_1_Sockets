@@ -1,11 +1,11 @@
-package socketThreadTesteNovo;
+package socketThread;
 
 import java.net.*;
 import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
 
-public class ClienteThread extends Thread {
+public class Cliente extends Thread {
 
 	static String host = "";
 	Socket socket = null;
@@ -17,7 +17,7 @@ public class ClienteThread extends Thread {
 	private Scanner console;
 	String nomeCliente = "Cliente-" + new Random().nextInt(1000);
 
-	ClienteThread(){
+	public Cliente(){
 		try {
 			socket = new Socket("localhost", port);
 			System.out.println(nomeCliente + " Conectado....");
@@ -61,10 +61,10 @@ public class ClienteThread extends Thread {
 			System.out.println("Erro ao retornar nome do cliente");
 		}
 	}
- 
+	
 	public static void main(String args[]){
 		//host = args.length == 0 ? "localhost" : args[0];
-		new ClienteThread(); 
+		new Cliente(); 
 	}
 }
 
