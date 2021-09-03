@@ -13,10 +13,10 @@ public class Transmissao extends Thread {
 	public String MsgRecebida = "";
 	public String nameCliente = "";	
 	
-	public Transmissao(Socket Escuta,Socket Responde) {
+	public Transmissao(Socket recebe,Socket envia) {
 		try {
-			fluxoEntrada = new DataInputStream(Escuta.getInputStream());
-			fluxoSaida = new DataOutputStream(Responde.getOutputStream());
+			fluxoEntrada = new DataInputStream(recebe.getInputStream());
+			fluxoSaida = new DataOutputStream(envia.getOutputStream());
 			
 			setNameCliente(fluxoEntrada.readUTF());
 			System.out.println("Conexão Estabelecida com cliente: " + nameCliente + "\n");

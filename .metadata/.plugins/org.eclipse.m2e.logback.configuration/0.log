@@ -1,2 +1,12 @@
 2021-03-26 19:32:03,844 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
 2021-04-06 17:26:21,682 [Worker-3: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2021-09-02 19:17:05,439 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2021-09-02 19:34:36,319 [Worker-0: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2021-09-02 19:37:20,182 [Worker-0: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2021-09-02 19:39:07,276 [Worker-2: Updating Maven Dependencies] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.fab:pathfind-automation-scripts:0.0.1 @ C:\Users\Micro\Documents\GitGREat\pathfind-test\pom.xml.
+2021-09-02 19:39:07,502 [Worker-3: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.fab:pathfind-automation-scripts:0.0.1 @ C:\Users\Micro\Documents\GitGREat\pathfind-test\pom.xml.
+2021-09-02 19:39:17,037 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-09-02 19:39:17,038 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Micro\Documents\GitGREat\pathfind-test\src\main\resources
+2021-09-02 19:39:17,042 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-09-02 19:39:17,052 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 25 resources
+2021-09-02 19:39:19,167 [Worker-5: Updating Maven Dependencies] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.fab:pathfind-automation-scripts:0.0.1 @ C:\Users\Micro\Documents\GitGREat\pathfind-test\pom.xml.
