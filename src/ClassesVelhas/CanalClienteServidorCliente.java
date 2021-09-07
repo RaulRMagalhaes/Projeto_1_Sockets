@@ -1,8 +1,10 @@
-package socketThread;
+package ClassesVelhas;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import socketThread.Transmissao;
 
 public class CanalClienteServidorCliente {
 	private Socket canal1 = null;
