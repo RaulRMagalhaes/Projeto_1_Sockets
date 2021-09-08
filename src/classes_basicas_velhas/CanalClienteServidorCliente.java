@@ -1,4 +1,4 @@
-package socketThread;
+package classes_basicas_velhas;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -21,7 +21,8 @@ public class CanalClienteServidorCliente {
 		} catch (IOException e) {
 			System.out.println("Erro ao conectar canal de comunicação com cliente no (CanalClienteServidorCliente)");
 		}
-	
+
+		
 	}
 
 }
