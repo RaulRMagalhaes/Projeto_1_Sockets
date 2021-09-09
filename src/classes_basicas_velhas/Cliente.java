@@ -1,12 +1,11 @@
-package socketThread;
+package classes_basicas_velhas;
 
 import java.net.*;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
-
-import Utils.Utils;
+import org.json.simple.*;
 
 public class Cliente extends Thread {
 
@@ -18,11 +17,9 @@ public class Cliente extends Thread {
 	private Scanner console;
 	
 	String nomeCliente = "";
-	String MsgRecebida= "a";
-	String MsgEnviada= "b";
+	String MsgRecebida= "";
+	String MsgEnviada= "";
 	int pontos = 10;
-	
-	HashMap<String,Object> dadosPartida = new HashMap<String,Object>();
 	
 	public Cliente(){
 		try {
@@ -42,8 +39,7 @@ public class Cliente extends Thread {
 	 
 				while(true){
 					this.setMsgEnviada(console.nextLine());
-					String pacoteEnviar = Utils.hashmapToString(this.pacotecliente());
-					fluxoSaida.writeUTF(pacoteEnviar);
+					fluxoSaida.writeUTF(this.getMsgEnviada()); ///procurar como enviar um OBJETO pelo socket
 					fluxoSaida.flush();
 				}
 			
@@ -55,9 +51,8 @@ public class Cliente extends Thread {
 	public void run(){
 		while (true) {
 			try {        
-				String pacoteRecebido = (fluxoEntrada.readUTF());
-				dadosPartida = Utils.stringToHashmap(pacoteRecebido);
-				System.out.println(dadosPartida.get(Utils.NOME_OPONENTE) + ": " + dadosPartida.get("msgOponente"));
+				this.setMsgRecebida(fluxoEntrada.readUTF());
+				System.out.println(MsgRecebida);
 			} catch(Exception e) {
 				System.out.println("\nErro ao receber mensagem do Servidor");
 			}
@@ -66,8 +61,7 @@ public class Cliente extends Thread {
 		
 	public void inicializacao() {
 		try {
-			String pacoteEnviar = Utils.hashmapToString(this.pacotecliente());
-			fluxoSaida.writeUTF(pacoteEnviar);
+			fluxoSaida.writeUTF(getNomeCliente());
 			fluxoSaida.flush();
 		} catch (IOException e) {
 			System.out.println("Erro ao inicializar dados do cliente");
@@ -84,9 +78,12 @@ public class Cliente extends Thread {
 	}
 	
 	public String getMsgRecebida() {
-		return this.pacotecliente().get("msgOponente").toString();
+		return MsgRecebida;
 	}
 
+	public void setMsgRecebida(String msgRecebida) {
+		MsgRecebida = msgRecebida;
+	}
 
 	public String getMsgEnviada() {
 		return MsgEnviada;
@@ -104,22 +101,21 @@ public class Cliente extends Thread {
 		return pontos;
 	}
 	
-	
-	public HashMap<String, Object> pacotecliente() {
-		HashMap<String,Object> dadosPartida = new HashMap<String,Object>();
+	public JSONObject pacoteJson() {
+		HashMap<String,Object> info = new HashMap<String,Object>();
 
-		dadosPartida.put("nomeCliente", getNomeCliente());
-		dadosPartida.put("msgCliente", getMsgEnviada());
-		dadosPartida.put("pontosCliente", getPontos());
-		dadosPartida.put("nomeOponente", " ");
-		dadosPartida.put("msgOponente", " ");
-		dadosPartida.put("pontosOponente", " ");
-				
-		return dadosPartida;
-	}	
-	
+		info.put("nome", getNomeCliente());
+		info.put("msgRecebida", getMsgRecebida());
+		info.put("msgEnviada", getMsgEnviada());
+		info.put("pontos", getPontos());
+		
+		JSONObject clienteJson = new JSONObject(info);
+		
+		return clienteJson;
+	}
 	
 	public static void main(String args[]){
 		new Cliente(); 
 	}
 }
+
