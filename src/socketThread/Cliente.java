@@ -12,8 +12,8 @@ public class Cliente extends Thread {
 
 	static String host = "";
 	Socket socket = null;
-	static DataOutputStream fluxoSaida = null;
-	DataInputStream fluxoEntrada = null;
+	//static DataOutputStream fluxoSaida = null;
+	//DataInputStream fluxoEntrada = null;
 	static int port = 9090;
 	private Scanner console;
 	
@@ -26,50 +26,44 @@ public class Cliente extends Thread {
 	
 	public Cliente(){
 		try {
-				socket = new Socket("localhost", port);
-				
-				setNomeCliente("Cliente-" + new Random().nextInt(1000));
-	
-				System.out.println(getNomeCliente() + " Conectado....");
-				
-				fluxoSaida = new DataOutputStream(socket.getOutputStream());
-				fluxoEntrada = new DataInputStream(socket.getInputStream());
-				console = new Scanner(System.in);
-
-				inicializacao();
-				
-				this.start();
-	 
-				while(true){
-					this.setMsgEnviada(console.nextLine());
-					String pacoteEnviar = Utils.hashmapToString(this.pacotecliente());
-					fluxoSaida.writeUTF(pacoteEnviar);
-					fluxoSaida.flush();
-				}
+			socket = new Socket("localhost", port);
 			
-			} catch(Exception e){
-				System.out.println("\nErro de conexão com o servidor");
+			setNomeCliente("Cliente-" + new Random().nextInt(1000));
+			System.out.println(getNomeCliente() + " Conectado....");
+
+			console = new Scanner(System.in);
+
+			inicializacao();
+			
+			this.start();
+ 
+			while(true){
+				this.setMsgEnviada(console.nextLine());
+				
+				Utils.enviaPacote(socket, this.pacotecliente(), "Erro ao enviar mensagem para o servidor");
 			}
+		} catch(Exception e){
+			System.out.println("\nErro de conexão com o servidor (try catch do cliente)");
+		}
 	}
 
 	public void run(){
 		while (true) {
 			try {        
-				String pacoteRecebido = (fluxoEntrada.readUTF());
-				dadosPartida = Utils.stringToHashmap(pacoteRecebido);
+				dadosPartida = Utils.recebePacote(socket, "Erro ao receber dados de inicialização do cliente");
+				
 				System.out.println(dadosPartida.get(Utils.NOME_OPONENTE) + ": " + dadosPartida.get("msgOponente"));
 			} catch(Exception e) {
-				System.out.println("\nErro ao receber mensagem do Servidor");
+				System.out.println("\nErro ao receber mensagem do Servidor (try catch do cliente)");
 			}
 		}
 	}
 		
 	public void inicializacao() {
 		try {
-			String pacoteEnviar = Utils.hashmapToString(this.pacotecliente());
-			fluxoSaida.writeUTF(pacoteEnviar);
-			fluxoSaida.flush();
-		} catch (IOException e) {
+			Utils.enviaPacote(socket, this.pacotecliente(), "Erro de conexão com o servidor");
+			
+		} catch (Exception e) {
 			System.out.println("Erro ao inicializar dados do cliente");
 		} 
 		
