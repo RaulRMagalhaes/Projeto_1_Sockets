@@ -304,15 +304,16 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <Component id="painelListaUsuarios" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="29" max="32767" attributes="0"/>
-                      <Component id="painelLogServidor" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="360" max="-2" attributes="0"/>
-                      <Component id="butaoStartServidor" min="-2" pref="94" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                              <Component id="butaoStartServidor" min="-2" pref="94" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="painelLogServidor" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -337,14 +338,14 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
                           <Component id="labelListaUsuarios" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="84" max="32767" attributes="0"/>
+                          <EmptySpace pref="85" max="32767" attributes="0"/>
                       </Group>
                       <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="listaUsuarios" min="-2" pref="282" max="-2" attributes="0"/>
+                              <Component id="scrollLlistaUsuarios" min="-2" pref="282" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -359,8 +360,8 @@
                       </Group>
                       <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="43" max="32767" attributes="0"/>
-                              <Component id="listaUsuarios" min="-2" pref="388" max="-2" attributes="0"/>
+                              <EmptySpace pref="69" max="32767" attributes="0"/>
+                              <Component id="scrollLlistaUsuarios" min="-2" pref="362" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -376,14 +377,14 @@
                     <Property name="text" type="java.lang.String" value="Lista de Usu&#xe1;rios"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JScrollPane" name="listaUsuarios">
+                <Container class="javax.swing.JScrollPane" name="scrollLlistaUsuarios">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JList" name="jList1">
+                    <Component class="javax.swing.JList" name="listaUsuarios">
                       <Properties>
                         <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                           <StringArray count="5">
@@ -408,15 +409,15 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="172" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace pref="194" max="32767" attributes="0"/>
                           <Component id="labelLogServidor" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="198" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="176" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="areaTextoLogServidor" pref="449" max="32767" attributes="0"/>
+                              <Component id="painelScrollLogServidor" pref="449" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -431,8 +432,8 @@
                       </Group>
                       <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="42" max="32767" attributes="0"/>
-                              <Component id="areaTextoLogServidor" min="-2" pref="389" max="-2" attributes="0"/>
+                              <EmptySpace pref="67" max="32767" attributes="0"/>
+                              <Component id="painelScrollLogServidor" min="-2" pref="364" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -440,14 +441,14 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JScrollPane" name="areaTextoLogServidor">
+                <Container class="javax.swing.JScrollPane" name="painelScrollLogServidor">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="jTextArea1">
+                    <Component class="javax.swing.JTextArea" name="areaTextoLogServidor">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
                         <Property name="rows" type="int" value="5"/>

@@ -16,7 +16,8 @@ public class Cliente extends Thread {
 	DataInputStream fluxoEntrada = null;
 	static int port = 9090;
 	private Scanner console;
-	
+        private String msgStatus = "";
+        
 	String nomeCliente = "";
 	String MsgRecebida= "a";
 	String MsgEnviada= "b";
@@ -26,33 +27,39 @@ public class Cliente extends Thread {
 
 	HashMap<String,Object> dadosPartida = new HashMap<String,Object>();
 	
-	public Cliente(){
+	public Cliente(String nomeUsuario){
 		try {
-				socket = new Socket("localhost", port);
-				
-				setNomeCliente("Cliente-" + new Random().nextInt(1000));
-	
-				System.out.println(getNomeCliente() + " Conectado....");
-				
-				fluxoSaida = new DataOutputStream(socket.getOutputStream());
-				fluxoEntrada = new DataInputStream(socket.getInputStream());
-				console = new Scanner(System.in);
+                        socket = new Socket("localhost", port);
 
-				inicializacao();
-				
-				this.start();
-	 
-				while(true){
-					this.setMsgEnviada(console.nextLine());
-					String pacoteEnviar = Utils.hashmapToString(this.pacotecliente());
-					fluxoSaida.writeUTF(pacoteEnviar);
-					fluxoSaida.flush();
-				}
-			
-			} catch(Exception e){
-				System.out.println("\nErro de conex�o com o servidor");
-			}
+                        setNomeCliente(nomeUsuario);
+
+                        setMsgStatus(getNomeCliente() + " Conectado....");
+                        System.out.println(getMsgStatus());
+
+                        fluxoSaida = new DataOutputStream(socket.getOutputStream());
+                        fluxoEntrada = new DataInputStream(socket.getInputStream());
+                        console = new Scanner(System.in);
+
+                        inicializacao();
+
+                        this.start();
+
+                        while(true){
+                                this.setMsgEnviada(console.nextLine());
+                                String pacoteEnviar = Utils.hashmapToString(this.pacotecliente());
+                                fluxoSaida.writeUTF(pacoteEnviar);
+                                fluxoSaida.flush();
+                        }
+
+                } catch(Exception e){
+                    setMsgStatus("\nErro de conexão com o servidor");
+                    System.out.println(getMsgStatus());
+                }
 	}
+
+    public Cliente() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 	public void run(){
 		while (true) {
@@ -66,6 +73,13 @@ public class Cliente extends Thread {
 		}
 	}
 		
+    public void setMsgStatus(String msgStatus) {
+        this.msgStatus = msgStatus;
+    }
+
+    public String getMsgStatus() {
+        return msgStatus;
+    }
 	public void inicializacao() {
 		try {
 			String pacoteEnviar = Utils.hashmapToString(this.pacotecliente());

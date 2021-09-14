@@ -10,6 +10,7 @@ import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import socketThread.Servidor;
 
 /**
  *
@@ -17,9 +18,11 @@ import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
  */
 public class janelaJogo extends javax.swing.JFrame {
     
-    UsuarioControl usuario = new UsuarioControl();
+    Servidor servidor = null;
+    UsuarioControl usuario = null;
     int num = 0;
     String chat = "";
+    String msgLogServidor = "";
 
     public janelaJogo() {
         initComponents();
@@ -51,11 +54,11 @@ public class janelaJogo extends javax.swing.JFrame {
         painelServidor = new javax.swing.JPanel();
         painelListaUsuarios = new javax.swing.JPanel();
         labelListaUsuarios = new javax.swing.JLabel();
-        listaUsuarios = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        scrollLlistaUsuarios = new javax.swing.JScrollPane();
+        listaUsuarios = new javax.swing.JList<>();
         painelLogServidor = new javax.swing.JPanel();
-        areaTextoLogServidor = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        painelScrollLogServidor = new javax.swing.JScrollPane();
+        areaTextoLogServidor = new javax.swing.JTextArea();
         labelLogServidor = new javax.swing.JLabel();
         butaoStartServidor = new javax.swing.JButton();
 
@@ -227,25 +230,25 @@ public class janelaJogo extends javax.swing.JFrame {
         labelListaUsuarios.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelListaUsuarios.setText("Lista de Usuários");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        listaUsuarios.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        listaUsuarios.setViewportView(jList1);
+        scrollLlistaUsuarios.setViewportView(listaUsuarios);
 
         javax.swing.GroupLayout painelListaUsuariosLayout = new javax.swing.GroupLayout(painelListaUsuarios);
         painelListaUsuarios.setLayout(painelListaUsuariosLayout);
         painelListaUsuariosLayout.setHorizontalGroup(
             painelListaUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelListaUsuariosLayout.createSequentialGroup()
-                .addGap(84, 84, 84)
+                .addGap(83, 83, 83)
                 .addComponent(labelListaUsuarios)
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
             .addGroup(painelListaUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(painelListaUsuariosLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(listaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scrollLlistaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         painelListaUsuariosLayout.setVerticalGroup(
@@ -256,14 +259,14 @@ public class janelaJogo extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(painelListaUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelListaUsuariosLayout.createSequentialGroup()
-                    .addContainerGap(43, Short.MAX_VALUE)
-                    .addComponent(listaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(69, Short.MAX_VALUE)
+                    .addComponent(scrollLlistaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        areaTextoLogServidor.setViewportView(jTextArea1);
+        areaTextoLogServidor.setColumns(20);
+        areaTextoLogServidor.setRows(5);
+        painelScrollLogServidor.setViewportView(areaTextoLogServidor);
 
         labelLogServidor.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelLogServidor.setText("Log Servidor");
@@ -272,14 +275,14 @@ public class janelaJogo extends javax.swing.JFrame {
         painelLogServidor.setLayout(painelLogServidorLayout);
         painelLogServidorLayout.setHorizontalGroup(
             painelLogServidorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painelLogServidorLayout.createSequentialGroup()
-                .addGap(172, 172, 172)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelLogServidorLayout.createSequentialGroup()
+                .addContainerGap(194, Short.MAX_VALUE)
                 .addComponent(labelLogServidor)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addGap(176, 176, 176))
             .addGroup(painelLogServidorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(painelLogServidorLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(areaTextoLogServidor, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                    .addComponent(painelScrollLogServidor, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         painelLogServidorLayout.setVerticalGroup(
@@ -290,8 +293,8 @@ public class janelaJogo extends javax.swing.JFrame {
                 .addContainerGap(409, Short.MAX_VALUE))
             .addGroup(painelLogServidorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelLogServidorLayout.createSequentialGroup()
-                    .addContainerGap(42, Short.MAX_VALUE)
-                    .addComponent(areaTextoLogServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(67, Short.MAX_VALUE)
+                    .addComponent(painelScrollLogServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
 
@@ -307,14 +310,14 @@ public class janelaJogo extends javax.swing.JFrame {
         painelServidor.setLayout(painelServidorLayout);
         painelServidorLayout.setHorizontalGroup(
             painelServidorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painelServidorLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelServidorLayout.createSequentialGroup()
                 .addComponent(painelListaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(painelLogServidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(painelServidorLayout.createSequentialGroup()
-                .addGap(360, 360, 360)
-                .addComponent(butaoStartServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(painelServidorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelServidorLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(butaoStartServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(painelLogServidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         painelServidorLayout.setVerticalGroup(
             painelServidorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,27 +349,29 @@ public class janelaJogo extends javax.swing.JFrame {
 
     private void botaoJogarLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoJogarLoginActionPerformed
         CardLayout c1 = (CardLayout) painelRaiz.getLayout();
-        
-        
-        
-        //usuario.setNomeUsuario(campoNomeUsuario.getText());
-        
-        
-        
                     
-        if(campoNomeUsuario.getText().equals("sevidorIFCE2021")){
+        if(campoNomeUsuario.getText().equals("servidorIFCE2021")){
             c1.show(painelRaiz, "telaServidor");
-            setTitle("Painel de Administrador - " + " estamos aguardando um oponente para jogar com você");
+            setTitle("Surakarta - Painel de Administrador - Servidor OFFLINE");
+            msgLogServidor += "O servidor ainda est� OFFLINE" + "\n";
+            msgLogServidor += "Aguardando Start do servidor...\n" + "\n";
+
+            areaTextoLogServidor.setText(msgLogServidor);
         }else{
-            
             c1.show(painelRaiz, "telaPrincipal");
+            
+            String nomeUsuario = campoNomeUsuario.getText();
+            usuario = new UsuarioControl(nomeUsuario);
+            
             setTitle("Surakarta - " + campoNomeUsuario.getText() + " estamos aguardando um oponente para jogar com você");
+            
+            if (true) {
+                JOptionPane.showMessageDialog(painelPrincipal, "Bem vindo " + campoNomeUsuario.getText() + ", \n\nVamos aguarda um oponente para jogar com você!", "Você está conectado", INFORMATION_MESSAGE);
+            }else {
+                JOptionPane.showMessageDialog(painelPrincipal, "Você ainda não está conctado, talvez o Servidor esteja fora do ar.", "Conexão com servidor",ERROR_MESSAGE );
+            }
         }
-        if (true) {
-            JOptionPane.showMessageDialog(painelPrincipal, "Bem vindo " + campoNomeUsuario.getText() + ", \n\nVamos aguarda um oponente para jogar com você!", "Você está conectado", INFORMATION_MESSAGE);
-        }else {
-            JOptionPane.showMessageDialog(painelPrincipal, "Você ainda não está conctado, talvez o Servidor esteja fora do ar.", "Conexão com servidor",ERROR_MESSAGE );
-        }
+
         
         campoTextoChat.requestFocus();
     }//GEN-LAST:event_botaoJogarLoginActionPerformed
@@ -377,16 +382,26 @@ public class janelaJogo extends javax.swing.JFrame {
 
     private void botaoEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEnviarActionPerformed
         if (!campoTextoChat.getText().equals("")) {
-            usuario.setMsgEnviar(campoEnviar.getText());
-            chat += usuario.getMsgEnviar() + "\n";
-            textoChat.setText(chat);
-            campoEnviar.setText("");
+            usuario.setMsgEnviar(campoTextoChat.getText());
+            chat += campoTextoChat.getText() + "\n";
+            areaTextoChat.setText(chat);
+            campoTextoChat.setText("");
         }
-        campoEnviar.requestFocus();
+        campoTextoChat.requestFocus();
     }//GEN-LAST:event_botaoEnviarActionPerformed
 
     private void butaoStartServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butaoStartServidorActionPerformed
-        // TODO add your handling code here:
+        servidor = new Servidor();
+        msgLogServidor = "";
+        areaTextoLogServidor.setText(servidor.getMsgStatus());
+        
+        if(servidor.isConectado()){
+            butaoStartServidor.setName("Finish");
+            setTitle("Surakarta - Painel de Administrador - Servidor ONLINE");
+        }else if(butaoStartServidor.getName().equals("Finish")){
+            servidor.fechar();
+        }
+        
     }//GEN-LAST:event_butaoStartServidorActionPerformed
 
     /**
@@ -426,20 +441,18 @@ public class janelaJogo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaTextoChat;
-    private javax.swing.JScrollPane areaTextoLogServidor;
+    private javax.swing.JTextArea areaTextoLogServidor;
     private javax.swing.JButton botaoEnviar;
     private javax.swing.JButton botaoJogarLogin;
     private javax.swing.JButton butaoStartServidor;
     private javax.swing.JTextField campoNomeUsuario;
     private javax.swing.JTextField campoTextoChat;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel labelListaUsuarios;
     private javax.swing.JLabel labelLogServidor;
     private javax.swing.JLabel labelNomeUsuarioLogin;
-    private javax.swing.JScrollPane listaUsuarios;
+    private javax.swing.JList<String> listaUsuarios;
     private javax.swing.JPanel painelChat;
     private javax.swing.JPanel painelFormularioLogin;
     private javax.swing.JPanel painelJogo;
@@ -448,6 +461,8 @@ public class janelaJogo extends javax.swing.JFrame {
     private javax.swing.JPanel painelLogin;
     private javax.swing.JPanel painelPrincipal;
     private javax.swing.JPanel painelRaiz;
+    private javax.swing.JScrollPane painelScrollLogServidor;
     private javax.swing.JPanel painelServidor;
+    private javax.swing.JScrollPane scrollLlistaUsuarios;
     // End of variables declaration//GEN-END:variables
 }
