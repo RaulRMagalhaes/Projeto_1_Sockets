@@ -50,7 +50,7 @@ public class Cliente extends Thread {
 				}
 			
 			} catch(Exception e){
-				System.out.println("\nErro de conexão com o servidor");
+				System.out.println("\nErro de conexï¿½o com o servidor");
 			}
 	}
 
@@ -136,8 +136,9 @@ public class Cliente extends Thread {
 		return dadosPartida;
 	}	
 	
-	
+	/*
 	public static void main(String args[]){
 		new Cliente(); 
 	}
+        */
 }

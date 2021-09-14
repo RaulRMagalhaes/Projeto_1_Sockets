@@ -22,8 +22,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	UsuarioControl usuario = new UsuarioControl();
+    private static final long serialVersionUID = 1L;
+    UsuarioControl usuario = new UsuarioControl();
     String chat = "";
     
     public JanelaPrincipal() {
@@ -219,8 +219,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
         if (!campoEnviar.getText().equals("")) {
-            usuario.setMensagemEnviar(campoEnviar.getText());
-            chat += usuario.getMensagemEnviada() + "\n";
+            usuario.setMsgEnviar(campoEnviar.getText());
+            chat += usuario.getMsgEnviar() + "\n";
             textoChat.setText(chat);
             campoEnviar.setText("");
         }
@@ -233,10 +233,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         CardLayout c1 = (CardLayout) painelGeral.getLayout();
         c1.show(painelGeral, "telaPrincipal");
                     
-        if (usuario.getClienteConectado()) {
-            JOptionPane.showMessageDialog(painelPrincipal, "Conectado. Bem vindo " + usuario.getNomeUsuario() + "!", "Conexão com servidor", INFORMATION_MESSAGE);
+        if (usuario.isConectado()) {
+            JOptionPane.showMessageDialog(painelPrincipal, "Conectado. Bem vindo " + usuario.getNomeUsuario() + "!", "Conexï¿½o com servidor", INFORMATION_MESSAGE);
         }else {
-            JOptionPane.showMessageDialog(painelPrincipal, "Servidor fora do ar", "Conexão com servidor",ERROR_MESSAGE );
+            JOptionPane.showMessageDialog(painelPrincipal, "Servidor fora do ar", "Conexï¿½o com servidor",ERROR_MESSAGE );
         }
         
         campoEnviar.requestFocus();
@@ -244,7 +244,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
     private void campoEnviarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoEnviarKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER && !campoEnviar.getText().equals("")) {
-            usuario.setMensagemEnviar(campoEnviar.getText());
+            usuario.setMsgEnviar(campoEnviar.getText());
             chat += campoEnviar.getText() + "\n";
             textoChat.setText(chat);
             campoEnviar.setText("");
@@ -269,16 +269,17 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             CardLayout c1 = (CardLayout) painelGeral.getLayout();
             c1.show(painelGeral, "telaPrincipal");
 
-            if (usuario.getClienteConectado()) {
-               JOptionPane.showMessageDialog(painelPrincipal, "Conectado. Bem vindo " + usuario.getNomeUsuario() + "!", "Conexão com servidor", INFORMATION_MESSAGE);
+            if (usuario.isConectado()) {
+               JOptionPane.showMessageDialog(painelPrincipal, "Conectado. Bem vindo " + usuario.getNomeUsuario() + "!", "Conexï¿½o com servidor", INFORMATION_MESSAGE);
             }else {
-               JOptionPane.showMessageDialog(painelPrincipal, "Servidor fora do ar", "Conexão com servidor",ERROR_MESSAGE );
+               JOptionPane.showMessageDialog(painelPrincipal, "Servidor fora do ar", "Conexï¿½o com servidor",ERROR_MESSAGE );
             }
             
             campoEnviar.requestFocus();
         }
     }//GEN-LAST:event_campoNomeKeyPressed
 
+    /*
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -304,12 +305,16 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        
+        /*
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new JanelaPrincipal().setVisible(true);
             }
         });
+        */
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;

@@ -15,19 +15,19 @@ public class UsuarioControl {
         return usuario.getNomeCliente();
     }
     
-    public void setMensagemEnviar(String mensagem){
+    public void setMsgEnviar(String mensagem){
         usuario.setMsgEnviada(mensagem);
     }
     
-    public String getMensagemEnviada() {
+    public String getMsgEnviar() {
         return usuario.getMsgEnviada();
     }
    
-    public String getMensagemRecebida(){
+    public String getMsgmRecebida(){
         return usuario.getMsgRecebida();
     }
 
-    public boolean getClienteConectado() {
+    public boolean isConectado() {
         return usuario.isConectado();
     }
 }

@@ -1,8 +1,7 @@
 package main;
 import Controller.UsuarioControl;
 import View.JanelaUsuario;
-import socketThreadTesteNovo.ClienteThread;
-import socketThreadTesteNovo.ServidorThread;
+
 
 /**
  * @author raulmagalhaes
