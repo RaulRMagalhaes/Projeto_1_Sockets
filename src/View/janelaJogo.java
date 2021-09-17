@@ -10,6 +10,8 @@ import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+
+import socketThread.Cliente;
 import socketThread.Servidor;
 
 /**
@@ -18,12 +20,19 @@ import socketThread.Servidor;
  */
 public class janelaJogo extends javax.swing.JFrame {
     
-    Servidor servidor = null;
-    UsuarioControl usuario = null;
+    /**
+	 * 
+	 */
+	
+	private static final long serialVersionUID = 1L;
+	Servidor servidor = null;
+    Cliente usuario = null;
     int num = 0;
     String chat = "";
     String msgLogServidor = "";
-
+    
+    CardLayout c1 = null;
+    
     public janelaJogo() {
         initComponents();
     }
@@ -228,7 +237,7 @@ public class janelaJogo extends javax.swing.JFrame {
         painelServidor.setPreferredSize(new java.awt.Dimension(800, 500));
 
         labelListaUsuarios.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelListaUsuarios.setText("Lista de Usuários");
+        labelListaUsuarios.setText("Lista de Usuarios");
 
         listaUsuarios.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -348,30 +357,35 @@ public class janelaJogo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoJogarLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoJogarLoginActionPerformed
-        CardLayout c1 = (CardLayout) painelRaiz.getLayout();
-                    
-        if(campoNomeUsuario.getText().equals("servidorIFCE2021")){
+  
+    	c1 = (CardLayout) painelRaiz.getLayout();
+
+        if(campoNomeUsuario.getText().equals("serv")){
             c1.show(painelRaiz, "telaServidor");
             setTitle("Surakarta - Painel de Administrador - Servidor OFFLINE");
-            msgLogServidor += "O servidor ainda est� OFFLINE" + "\n";
-            msgLogServidor += "Aguardando Start do servidor...\n" + "\n";
-
+            msgLogServidor = "O servidor ainda est� OFFLINE. Aguardando Start do servidor...\n";
             areaTextoLogServidor.setText(msgLogServidor);
-        }else{
-            c1.show(painelRaiz, "telaPrincipal");
             
+        } else if(!campoNomeUsuario.getText().equals("")) {            
             String nomeUsuario = campoNomeUsuario.getText();
-            usuario = new UsuarioControl(nomeUsuario);
+            setTitle("Surakarta - " + nomeUsuario + " estamos aguardando um oponente para jogar com voce");
             
-            setTitle("Surakarta - " + campoNomeUsuario.getText() + " estamos aguardando um oponente para jogar com você");
-            
-            if (true) {
-                JOptionPane.showMessageDialog(painelPrincipal, "Bem vindo " + campoNomeUsuario.getText() + ", \n\nVamos aguarda um oponente para jogar com você!", "Você está conectado", INFORMATION_MESSAGE);
-            }else {
-                JOptionPane.showMessageDialog(painelPrincipal, "Você ainda não está conctado, talvez o Servidor esteja fora do ar.", "Conexão com servidor",ERROR_MESSAGE );
-            }
-        }
+            c1.show(painelRaiz, "telaPrincipal");
 
+            usuario = new Cliente(nomeUsuario);
+            
+            if(servidor != null) {
+            	if (servidor.isConectado()) {
+            		JOptionPane.showMessageDialog(painelPrincipal, "Bem vindo " + campoNomeUsuario.getText() + ", \n\nVamos aguarda um oponente para jogar com voce!", "Voce esta conectado", INFORMATION_MESSAGE);
+            	}else {
+                    JOptionPane.showMessageDialog(painelPrincipal, "Voce ainda nao esta conctado, talvez o Servidor esteja fora do ar.", "Conexao com servidor",ERROR_MESSAGE );
+            	}
+        	}else {
+                JOptionPane.showMessageDialog(painelPrincipal, "O servidor ainda n�o foi startado", "Conexao com servidor",ERROR_MESSAGE );
+            }
+            
+        }
+		
         
         campoTextoChat.requestFocus();
     }//GEN-LAST:event_botaoJogarLoginActionPerformed
@@ -382,7 +396,7 @@ public class janelaJogo extends javax.swing.JFrame {
 
     private void botaoEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEnviarActionPerformed
         if (!campoTextoChat.getText().equals("")) {
-            usuario.setMsgEnviar(campoTextoChat.getText());
+            usuario.setMsgEnviada(campoTextoChat.getText());
             chat += campoTextoChat.getText() + "\n";
             areaTextoChat.setText(chat);
             campoTextoChat.setText("");
@@ -391,16 +405,25 @@ public class janelaJogo extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoEnviarActionPerformed
 
     private void butaoStartServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butaoStartServidorActionPerformed
-        servidor = new Servidor();
-        msgLogServidor = "";
-        areaTextoLogServidor.setText(servidor.getMsgStatus());
         
-        if(servidor.isConectado()){
-            butaoStartServidor.setName("Finish");
-            setTitle("Surakarta - Painel de Administrador - Servidor ONLINE");
-        }else if(butaoStartServidor.getName().equals("Finish")){
+    	if(servidor == null){
+    		try {
+    	   		servidor = new Servidor();
+                msgLogServidor = "";
+                areaTextoLogServidor.setText(servidor.getMsgStatus());
+                
+                if(servidor.isConectado()){
+                    butaoStartServidor.setText("Finish");
+                    setTitle("Surakarta - Painel de Administrador - Servidor ONLINE");
+                }
+    		} catch (Exception e) {
+                areaTextoLogServidor.setText(servidor.getMsgStatus());
+			}
+    	} else if(butaoStartServidor.getText().equals("Finish")){
             servidor.fechar();
+            servidor = null;
         }
+        
         
     }//GEN-LAST:event_butaoStartServidorActionPerformed
 

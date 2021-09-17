@@ -29,37 +29,36 @@ public class Cliente extends Thread {
 	
 	public Cliente(String nomeUsuario){
 		try {
-                        socket = new Socket("localhost", port);
+	        socket = new Socket("localhost", port);
+	
+	        setNomeCliente(nomeUsuario);
+	
+	        setMsgStatus(getNomeCliente() + " Conectado....");
+	        System.out.println(getMsgStatus());
+	
+	        fluxoSaida = new DataOutputStream(socket.getOutputStream());
+	        fluxoEntrada = new DataInputStream(socket.getInputStream());
+	        console = new Scanner(System.in);
+	
+	        inicializacao();
+	
+	        this.start();
+	        
+	        
+	       while(true){
+	                this.setMsgEnviada("oi");
+	                String pacoteEnviar = Utils.hashmapToString(this.pacotecliente());
+	                fluxoSaida.writeUTF(pacoteEnviar);
+	                fluxoSaida.flush();
+	        }
+	        
 
-                        setNomeCliente(nomeUsuario);
-
-                        setMsgStatus(getNomeCliente() + " Conectado....");
-                        System.out.println(getMsgStatus());
-
-                        fluxoSaida = new DataOutputStream(socket.getOutputStream());
-                        fluxoEntrada = new DataInputStream(socket.getInputStream());
-                        console = new Scanner(System.in);
-
-                        inicializacao();
-
-                        this.start();
-
-                        while(true){
-                                this.setMsgEnviada(console.nextLine());
-                                String pacoteEnviar = Utils.hashmapToString(this.pacotecliente());
-                                fluxoSaida.writeUTF(pacoteEnviar);
-                                fluxoSaida.flush();
-                        }
-
-                } catch(Exception e){
-                    setMsgStatus("\nErro de conexão com o servidor");
-                    System.out.println(getMsgStatus());
-                }
+        } catch(Exception e){
+            setMsgStatus("\nErro de conexao com o servidor");
+            System.out.println(getMsgStatus());
+        }
 	}
 
-    public Cliente() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 	public void run(){
 		while (true) {
@@ -152,7 +151,7 @@ public class Cliente extends Thread {
 	
 	/*
 	public static void main(String args[]){
-		new Cliente(); 
+		new Cliente("Cliente-" + new Random().nextInt(1000)); 
 	}
-        */
+    */
 }

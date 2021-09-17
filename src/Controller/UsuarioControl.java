@@ -17,11 +17,11 @@ public class UsuarioControl {
         return usuario.getNomeCliente();
     }
     
-    public void setMsgEnviar(String mensagem){
+    public void setMsgEnviada(String mensagem){
         usuario.setMsgEnviada(mensagem);
     }
     
-    public String getMsgEnviar() {
+    public String getMsgEnviada() {
         return usuario.getMsgEnviada();
     }
    

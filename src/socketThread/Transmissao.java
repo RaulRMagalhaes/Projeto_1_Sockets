@@ -45,7 +45,7 @@ public class Transmissao extends Thread {
 					pacoteRecebido = fluxoEntrada.readUTF();
 					dadosPartida = Utils.stringToHashmap(pacoteRecebido);
 					
-					MsgRecebida = dadosPartida.get(Utils.NOME_CLIENTE) + ": " + dadosPartida.get(Utils.MSG_CLIENTE); // printa no servidor apenas para saber de quem é a mensagem recebida
+					MsgRecebida = dadosPartida.get(Utils.NOME_CLIENTE) + ": " + dadosPartida.get(Utils.MSG_CLIENTE); // printa no servidor apenas para saber de quem e a mensagem recebida
 					System.out.println(MsgRecebida); //visualizar a mensagem chegando no servidor
 					
 					//Converte os dadosCliente de A para dadosOponente de B
@@ -62,7 +62,7 @@ public class Transmissao extends Thread {
 					fluxoSaida.flush();
 				}
 			} catch (IOException e) {
-				System.out.println(nameCliente + "saiu ou Erro de comunicação");
+				System.out.println(nameCliente + "saiu ou Erro de comunicacao");
 			}
 	}
 	

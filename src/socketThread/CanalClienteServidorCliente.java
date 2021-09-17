@@ -19,7 +19,7 @@ public class CanalClienteServidorCliente {
 			new Transmissao(canal2, canal1);
 		
 		} catch (IOException e) {
-			System.out.println("Erro ao conectar canal de comunicação com cliente no (CanalClienteServidorCliente)");
+			System.out.println("Erro ao conectar canal de comunicacao com cliente no (CanalClienteServidorCliente)");
 		}
 	
 	}

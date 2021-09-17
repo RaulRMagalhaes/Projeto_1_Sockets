@@ -8,21 +8,21 @@ import java.util.logging.Logger;
 public class Servidor extends Thread {
 	
 	ServerSocket servidor = null;
-	public static int port = 9090;
-        public static String msgStatus = "";
-        boolean conectado = false;
+	public int port = 9090;
+    public String msgStatus = "";
+    public boolean conectado = false;
 
 	public Servidor(){
 		try {
 			servidor = new ServerSocket(port);
             setConectado(true);
-            setMsgStatus("Servidor iniciado na porta [" + port + "]. Aguardando solicitação de conexão...");
+            setMsgStatus("Servidor iniciado na porta [" + port + "]. Aguardando solicitacao de conexao...");
 			System.out.println(getMsgStatus());
 			
 			this.start();
 			
 		} catch(Exception e){
-                        setMsgStatus("Erro ao iniciar o servidor");
+            setMsgStatus("Erro ao iniciar o servidor");
 			System.out.println("\n" + getMsgStatus());
 		}
 		
@@ -35,36 +35,38 @@ public class Servidor extends Thread {
 	}
 
 	
-    public void setConectado(boolean conectado) {
-        this.conectado = conectado;
+    public void setConectado(boolean isConectado) {
+    	this.conectado = isConectado;
     }
 
     public boolean isConectado() {
         return conectado;
     }
     
-    public static String getMsgStatus() {
-        return msgStatus;
-        
+    public String getMsgStatus() {
+        return msgStatus;   
     }
     
-    public static void setMsgStatus(String msgStatus) {
-        Servidor.msgStatus = msgStatus;
+    public void setMsgStatus(String msgStatus) {
+        this.msgStatus = msgStatus;
     }
     
     public void fechar(){
             try {
                 servidor.close();
             } catch (IOException ex) {
+                setMsgStatus("Erro ao tentar fechar o servidor");
+    			System.out.println("\n" + getMsgStatus());
                 Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
-        /*
+        
+    /*
 	public static void main(String args[]){
 		new Servidor();
 	}
-        */
-	
+	*/
+       
 }
 
 
