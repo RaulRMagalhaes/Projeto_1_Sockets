@@ -69,7 +69,6 @@ public class Cliente extends Thread {
 	public void inicializacao() {
 		try {
 			Utils.enviaPacote(socket, this.pacotecliente());
-			
 		} catch (Exception e) {
 			System.out.println("Erro ao inicializar dados do cliente");
 		} 
