@@ -24,29 +24,21 @@ public class Utils {
 	public static String PONTOS_OPONENTE = "pontosOponente";
 	
 	
-	public static void enviaPacote(Socket envia, HashMap<String,Object> dadosPartida, String mensagemErro) {
-		try {
+	public static void enviaPacote(Socket envia, HashMap<String,Object> dadosPartida) throws IOException {
 			pacoteEnviar = hashmapToString(dadosPartida);
 			
 			fluxoSaida = new DataOutputStream(envia.getOutputStream());
 			fluxoSaida.writeUTF(pacoteEnviar);
 			fluxoSaida.flush();
-		} catch (IOException e) {
-			System.out.println(mensagemErro);
-			e.printStackTrace();
-		}
 	}
 	
-	public static HashMap<String,Object> recebePacote(Socket recebe, String mensagemErro) {
-		try {
-			fluxoEntrada = new DataInputStream(recebe.getInputStream());
-			pacoteRecebido = fluxoEntrada.readUTF();
-			
-			dadosPartida = Utils.stringToHashmap(pacoteRecebido);
-		} catch (IOException e) {
-			System.out.println(mensagemErro);
-			e.printStackTrace();
-		}
+	public static HashMap<String,Object> recebePacote(Socket recebe) throws IOException {
+	
+		fluxoEntrada = new DataInputStream(recebe.getInputStream());
+		pacoteRecebido = fluxoEntrada.readUTF();
+		
+		dadosPartida = Utils.stringToHashmap(pacoteRecebido);
+
 		return dadosPartida;
 	}
 	

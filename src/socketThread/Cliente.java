@@ -40,7 +40,7 @@ public class Cliente extends Thread {
 			while(true){
 				this.setMsgEnviada(console.nextLine());
 				
-				Utils.enviaPacote(socket, this.pacotecliente(), "Erro ao enviar mensagem para o servidor");
+				Utils.enviaPacote(socket, this.pacotecliente());
 			}
 		} catch(Exception e){
 			System.out.println("\nErro de conexão com o servidor (try catch do cliente)");
@@ -50,18 +50,19 @@ public class Cliente extends Thread {
 	public void run(){
 		while (true) {
 			try {        
-				dadosPartida = Utils.recebePacote(socket, "Erro ao receber dados de inicialização do cliente");
+				dadosPartida = Utils.recebePacote(socket);
 				
 				System.out.println(dadosPartida.get(Utils.NOME_OPONENTE) + ": " + dadosPartida.get("msgOponente"));
 			} catch(Exception e) {
 				System.out.println("\nErro ao receber mensagem do Servidor (try catch do cliente)");
+				break;
 			}
 		}
 	}
 		
 	public void inicializacao() {
 		try {
-			Utils.enviaPacote(socket, this.pacotecliente(), "Erro de conexão com o servidor");
+			Utils.enviaPacote(socket, this.pacotecliente());
 			
 		} catch (Exception e) {
 			System.out.println("Erro ao inicializar dados do cliente");

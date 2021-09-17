@@ -31,7 +31,7 @@ public class Partida {
 		try {
 			canalCliente = servidor.accept();
 			
-			dadosPartida = Utils.recebePacote(canalCliente, "Erro ao receber dados de inicialização do cliente");
+			dadosPartida = Utils.recebePacote(canalCliente);
 			System.out.println("Conexão Estabelecida com cliente: " + dadosPartida.get("nomeCliente").toString() + "\n");
 		} catch (IOException e) {
 			System.out.println("Erro ao conectar canal de comunicação com cliente na Partida");
