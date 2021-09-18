@@ -20,11 +20,8 @@ public class ClienteThreadEnvia extends Thread{
 		while(true){
 			try {
 				Thread.sleep(1000/20);
-				//clienteThread.setMsgEnviada(console.nextLine());	
-				//if(!clienteThread.getMsgEnviada().equals(" ")) {
-					Utils.enviaPacote(clienteThread.socket, clienteThread.pacotecliente());
-					clienteThread.setMsgEnviada(" ");
-				//}
+				Utils.enviaPacote(clienteThread.socket, clienteThread.pacotecliente());
+				clienteThread.setMsgEnviada(" ");
 			} catch (IOException | InterruptedException e) {
 				System.out.println("\nErro de conexão com o servidor (try catch do cliente)");
 				break;

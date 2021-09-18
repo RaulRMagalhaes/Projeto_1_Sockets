@@ -23,6 +23,8 @@ public class Cliente extends Thread {
 
 	HashMap<String,Object> dadosPartida = new HashMap<String,Object>();
 	
+
+
 	public Cliente(String nomeCliente){
 		try {
 			socket = new Socket("localhost", port);
@@ -47,9 +49,9 @@ public class Cliente extends Thread {
 	public void run(){
 		while (true) {
 			try {        
-				dadosPartida = Utils.recebePacote(socket);
-				if(!dadosPartida.get("msgOponente").equals(" ")) {
-					System.out.println(dadosPartida.get(Utils.NOME_OPONENTE) + ": " + dadosPartida.get("msgOponente"));
+				setDadosPartida(Utils.recebePacote(socket));
+				if(!this.getDadosPartida().get("msgOponente").equals(" ")) {
+					System.out.println(this.getDadosPartida().get(Utils.NOME_OPONENTE) + ": " + this.getDadosPartida().get("msgOponente"));
 				}
 			} catch(Exception e) {
 				System.out.println("\nErro ao receber mensagem do Servidor (try catch do cliente)");
@@ -111,6 +113,14 @@ public class Cliente extends Thread {
 
 	public void setConectado(boolean conectado) {
 		this.conectado = conectado;
+	}
+	
+	public HashMap<String, Object> getDadosPartida() {
+		return this.dadosPartida;
+	}
+
+	public void setDadosPartida(HashMap<String, Object> dadosPartida) {
+		this.dadosPartida = dadosPartida;
 	}
 	
 	public HashMap<String, Object> pacotecliente() {

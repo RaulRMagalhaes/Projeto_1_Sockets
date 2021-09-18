@@ -6,7 +6,11 @@
 package View;
 
 import Controller.UsuarioControl;
+import Utils.Utils;
+
 import java.awt.CardLayout;
+import java.util.HashMap;
+
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
@@ -26,9 +30,10 @@ public class janelaJogo extends javax.swing.JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	Servidor servidor = null;
-    Cliente usuario = null;
+    static Cliente usuario = null;
+	static HashMap<String,Object> dadosPartida = new HashMap<String,Object>();
     int num = 0;
-    String chat = "";
+    static String chat = "";
     String msgLogServidor = "";
     
     CardLayout c1 = null;
@@ -420,10 +425,21 @@ public class janelaJogo extends javax.swing.JFrame {
             servidor.fechar();
             servidor = null;
         }
-        
-        
+       
     }//GEN-LAST:event_butaoStartServidorActionPerformed
 
+    public static void atualizaInterface() {
+    	dadosPartida = usuario.getDadosPartida();
+    	String msgRecebida = dadosPartida.get(Utils.NOME_OPONENTE).toString() + ":" + dadosPartida.get(Utils.MSG_OPONENTE).toString();
+    	
+        if (!msgRecebida.equals(" ")) {
+            chat += msgRecebida + "\n";
+            areaTextoChat.setText(chat);
+        }
+        campoTextoChat.requestFocus();
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -454,19 +470,23 @@ public class janelaJogo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new janelaJogo().setVisible(true);
+                new janelaJogo().setVisible(true);               
             }
         });
+        
+        while(true) {
+        	atualizaInterface();
+        }
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea areaTextoChat;
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+    private static javax.swing.JTextArea areaTextoChat;
     private javax.swing.JTextArea areaTextoLogServidor;
     private javax.swing.JButton botaoEnviar;
     private javax.swing.JButton botaoJogarLogin;
     private javax.swing.JButton butaoStartServidor;
     private javax.swing.JTextField campoNomeUsuario;
-    private javax.swing.JTextField campoTextoChat;
+    private static javax.swing.JTextField campoTextoChat;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelListaUsuarios;
