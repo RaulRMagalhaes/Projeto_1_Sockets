@@ -48,7 +48,9 @@ public class Cliente extends Thread {
 		while (true) {
 			try {        
 				dadosPartida = Utils.recebePacote(socket);
-				System.out.println(dadosPartida.get(Utils.NOME_OPONENTE) + ": " + dadosPartida.get("msgOponente"));
+				if(!dadosPartida.get("msgOponente").equals(" ")) {
+					System.out.println(dadosPartida.get(Utils.NOME_OPONENTE) + ": " + dadosPartida.get("msgOponente"));
+				}
 			} catch(Exception e) {
 				System.out.println("\nErro ao receber mensagem do Servidor (try catch do cliente)");
 				break;
