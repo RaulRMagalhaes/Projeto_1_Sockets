@@ -5,8 +5,13 @@ import View.JanelaPrincipal;
 import socketThread.Cliente;
 
 public class UsuarioControl {
-    Cliente usuario = new Cliente();
-        
+	
+	Cliente usuario = null;
+   
+	public UsuarioControl(String nomeUsuario) {
+		usuario = new Cliente(nomeUsuario);
+	}
+
     public void setNomeUsuario(String nomeUsuario){
         usuario.setNomeCliente(nomeUsuario);
     }
