@@ -362,26 +362,23 @@ public class janelaJogo extends javax.swing.JFrame {
 
         if(campoNomeUsuario.getText().equals("serv")){
             c1.show(painelRaiz, "telaServidor");
-            setTitle("Surakarta - Painel de Administrador - Servidor OFFLINE");
+
             msgLogServidor = "O servidor ainda está OFFLINE. Aguardando Start do servidor...\n";
             areaTextoLogServidor.setText(msgLogServidor);
             
         } else if(!campoNomeUsuario.getText().equals("")) {            
             String nomeUsuario = campoNomeUsuario.getText();
-            setTitle("Surakarta - " + nomeUsuario + " estamos aguardando um oponente para jogar com voce");
             
             c1.show(painelRaiz, "telaPrincipal");
 
             usuario = new Cliente(nomeUsuario);
             
-            if(servidor != null) {
-            	if (servidor.isConectado()) {
-            		JOptionPane.showMessageDialog(painelPrincipal, "Bem vindo " + campoNomeUsuario.getText() + ", \n\nVamos aguarda um oponente para jogar com voce!", "Voce esta conectado", INFORMATION_MESSAGE);
-            	}else {
-                    JOptionPane.showMessageDialog(painelPrincipal, "Voce ainda nao esta conctado, talvez o Servidor esteja fora do ar.", "Conexao com servidor",ERROR_MESSAGE );
-            	}
+            if(usuario.isConectado()) {   	
+                setTitle("Surakarta - " + nomeUsuario + " - Online");
+        		JOptionPane.showMessageDialog(painelPrincipal, "Bem vindo " + campoNomeUsuario.getText() + ", \n\nAguardando um oponente para jogar com voce!", "Voce esta conectado", INFORMATION_MESSAGE);
         	}else {
-                JOptionPane.showMessageDialog(painelPrincipal, "O servidor ainda não foi startado", "Conexao com servidor",ERROR_MESSAGE );
+                setTitle("Surakarta - " + nomeUsuario + " - Servidor OFFLINE");
+                JOptionPane.showMessageDialog(painelPrincipal, "O servidor OFFLINE \n\n É necessário fechar a página e voltar quando o servidor estiver startado!", "Conexao com servidor",ERROR_MESSAGE );
             }
             
         }

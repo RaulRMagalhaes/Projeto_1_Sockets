@@ -1,7 +1,4 @@
 /socketThread/
-/Utils/
-/interfaceGrafica/
+/classes_basicas_velhas/
 /View/
-/logica/
-/main/
-/Controller/
+/Utils/

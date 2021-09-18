@@ -2,6 +2,8 @@ package classes_basicas_velhas;
 
 import java.net.*;
 
+import socketThread.Partida;
+
 public class Servidor extends Thread {
 	
 	ServerSocket servidor = null;
@@ -13,7 +15,7 @@ public class Servidor extends Thread {
 			System.out.println("Servidor iniciado. Aguardando conexão...");
 			
 			while (true) {
-				new CanalClienteServidorCliente(servidor);
+				new Partida(servidor);
 			}
 			
 		} catch(Exception e){

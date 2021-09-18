@@ -1,10 +1,20 @@
 package Utils;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.io.DataInputStream;
 import java.util.HashMap;
 
 public class Utils {
 	
+	private static DataOutputStream fluxoSaida = null;
+	private static DataInputStream fluxoEntrada  = null;
 	
+	static String pacoteRecebido = "";
+	static String pacoteEnviar = "";
+	static HashMap<String,Object> dadosPartida = new HashMap<String,Object>();
+
 	public static String NOME_CLIENTE = "nomeCliente";
 	public static String MSG_CLIENTE = "msgCliente";
 	public static String PONTOS_CLIENTE = "pontosCliente";
@@ -13,12 +23,23 @@ public class Utils {
 	public static String MSG_OPONENTE = "msgOponente";
 	public static String PONTOS_OPONENTE = "pontosOponente";
 	
-	public void enviaPacote() {
-		//
+	
+	public static void enviaPacote(Socket envia, HashMap<String,Object> dadosPartida) throws IOException {
+			pacoteEnviar = hashmapToString(dadosPartida);
+			
+			fluxoSaida = new DataOutputStream(envia.getOutputStream());
+			fluxoSaida.writeUTF(pacoteEnviar);
+			fluxoSaida.flush();
 	}
 	
-	public void recebePacote() {
-		//
+	public static HashMap<String,Object> recebePacote(Socket recebe) throws IOException {
+	
+		fluxoEntrada = new DataInputStream(recebe.getInputStream());
+		pacoteRecebido = fluxoEntrada.readUTF();
+		
+		dadosPartida = Utils.stringToHashmap(pacoteRecebido);
+
+		return dadosPartida;
 	}
 	
 	public static HashMap<String, Object> stringToHashmap(String pacoteRecebido) {
@@ -41,7 +62,7 @@ public class Utils {
 	public static String hashmapToString(HashMap<String, Object> pacoteEnviar) {
 		String dadosPartida = "";
 		
-		dadosPartida += pacoteEnviar.get(NOME_CLIENTE) + ":" +
+		dadosPartida = pacoteEnviar.get(NOME_CLIENTE) + ":" +
 						pacoteEnviar.get(MSG_CLIENTE) + ":" +
 						pacoteEnviar.get(PONTOS_CLIENTE) + ":" +
 						

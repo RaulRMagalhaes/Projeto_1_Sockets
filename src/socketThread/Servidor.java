@@ -30,7 +30,7 @@ public class Servidor extends Thread {
 	
 	public void run(){
 		while (true) {
-			new CanalClienteServidorCliente(servidor);
+			new Partida(servidor);
 		}
 	}
 

@@ -1,90 +1,65 @@
 package socketThread;
 
 import java.net.*;
-import java.io.*;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Scanner;
 
+import Utils.ClienteThreadEnvia;
 import Utils.Utils;
 
 public class Cliente extends Thread {
 
 	static String host = "";
-	Socket socket = null;
-	static DataOutputStream fluxoSaida = null;
-	DataInputStream fluxoEntrada = null;
+	public Socket socket = null;
 	static int port = 9090;
-	private Scanner console;
-        private String msgStatus = "";
-        
-	String nomeCliente = "";
-	String MsgRecebida= "a";
-	String MsgEnviada= "b";
+	ClienteThreadEnvia threadEnvia =  null; 
+		
+	String nomeCliente = " ";
+	String MsgRecebida= " ";
+	String MsgEnviada= " ";
 	int pontos = 10;
 	boolean meuTurno = false;
 	boolean conectado = false;
 
 	HashMap<String,Object> dadosPartida = new HashMap<String,Object>();
 	
-	public Cliente(String nomeUsuario){
+	public Cliente(String nomeCliente){
 		try {
-	        socket = new Socket("localhost", port);
-	
-	        setNomeCliente(nomeUsuario);
-	
-	        setMsgStatus(getNomeCliente() + " Conectado....");
-	        System.out.println(getMsgStatus());
-	
-	        fluxoSaida = new DataOutputStream(socket.getOutputStream());
-	        fluxoEntrada = new DataInputStream(socket.getInputStream());
-	        console = new Scanner(System.in);
-	
-	        inicializacao();
-	
-	        this.start();
-	        
-	        
-	       while(true){
-	                this.setMsgEnviada("oi");
-	                String pacoteEnviar = Utils.hashmapToString(this.pacotecliente());
-	                fluxoSaida.writeUTF(pacoteEnviar);
-	                fluxoSaida.flush();
-	        }
-	        
+			socket = new Socket("localhost", port);
+			threadEnvia = new ClienteThreadEnvia(this);
+			
+			setNomeCliente(nomeCliente);
+			setConectado(true);
+			System.out.println(getNomeCliente() + " Conectado....");
+			
 
-        } catch(Exception e){
-            setMsgStatus("\nErro de conexao com o servidor");
-            System.out.println(getMsgStatus());
-        }
+			inicializacao();
+			
+			this.start();
+			threadEnvia.start();
+			
+		} catch(Exception e){
+			System.out.println("\nErro de conexão com o servidor ou servidor OFF (try catch do cliente)");
+			setConectado(false);
+		}
 	}
-
 
 	public void run(){
 		while (true) {
 			try {        
-				String pacoteRecebido = (fluxoEntrada.readUTF());
-				dadosPartida = Utils.stringToHashmap(pacoteRecebido);
+				dadosPartida = Utils.recebePacote(socket);
 				System.out.println(dadosPartida.get(Utils.NOME_OPONENTE) + ": " + dadosPartida.get("msgOponente"));
 			} catch(Exception e) {
-				System.out.println("\nErro ao receber mensagem do Servidor");
+				System.out.println("\nErro ao receber mensagem do Servidor (try catch do cliente)");
+				break;
 			}
 		}
 	}
 		
-    public void setMsgStatus(String msgStatus) {
-        this.msgStatus = msgStatus;
-    }
-
-    public String getMsgStatus() {
-        return msgStatus;
-    }
 	public void inicializacao() {
 		try {
-			String pacoteEnviar = Utils.hashmapToString(this.pacotecliente());
-			fluxoSaida.writeUTF(pacoteEnviar);
-			fluxoSaida.flush();
-		} catch (IOException e) {
+			Utils.enviaPacote(socket, this.pacotecliente());
+		} catch (Exception e) {
 			System.out.println("Erro ao inicializar dados do cliente");
 		} 
 		
@@ -142,6 +117,7 @@ public class Cliente extends Thread {
 		dadosPartida.put("nomeCliente", getNomeCliente());
 		dadosPartida.put("msgCliente", getMsgEnviada());
 		dadosPartida.put("pontosCliente", getPontos());
+		
 		dadosPartida.put("nomeOponente", " ");
 		dadosPartida.put("msgOponente", " ");
 		dadosPartida.put("pontosOponente", " ");
@@ -153,5 +129,5 @@ public class Cliente extends Thread {
 	public static void main(String args[]){
 		new Cliente("Cliente-" + new Random().nextInt(1000)); 
 	}
-    */
+	*/
 }
