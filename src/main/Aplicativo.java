@@ -1,6 +1,6 @@
 package main;
-import interfaceGrafica.JanelaUsuario;
-import logica.Usuario;
+import Controller.UsuarioControl;
+import View.JanelaUsuario;
 import socketThreadTesteNovo.ClienteThread;
 import socketThreadTesteNovo.ServidorThread;
 
@@ -10,11 +10,7 @@ import socketThreadTesteNovo.ServidorThread;
 public class Aplicativo {
 			
 	public static void main(String[] args) throws InterruptedException {
-		new Servidor();
-		Thread.sleep(1000);
-		new Cliente(); 
-		new Cliente(); 
-		new Cliente(); 
+		//
 	}
 
 }

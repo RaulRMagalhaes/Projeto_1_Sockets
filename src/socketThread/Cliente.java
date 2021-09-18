@@ -20,7 +20,9 @@ public class Cliente extends Thread {
 	String MsgRecebida= "a";
 	String MsgEnviada= "b";
 	int pontos = 10;
-	
+	boolean meuTurno = false;
+	boolean conectado = false;
+
 	HashMap<String,Object> dadosPartida = new HashMap<String,Object>();
 	
 	public Cliente(String nomeCliente){
@@ -91,6 +93,22 @@ public class Cliente extends Thread {
 		return pontos;
 	}
 	
+	public boolean isMeuTurno() {
+		return meuTurno;
+	}
+
+	public void setMeuTurno(boolean meuTurno) {
+		this.meuTurno = meuTurno;
+	}
+
+	
+	public boolean isConectado() {
+		return conectado;
+	}
+
+	public void setConectado(boolean conectado) {
+		this.conectado = conectado;
+	}
 	
 	public HashMap<String, Object> pacotecliente() {
 		HashMap<String,Object> dadosPartida = new HashMap<String,Object>();
