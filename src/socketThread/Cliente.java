@@ -13,13 +13,9 @@ public class Cliente extends Thread {
 
 	static String host = "";
 	public Socket socket = null;
-	//static DataOutputStream fluxoSaida = null;
-	//DataInputStream fluxoEntrada = null;
 	static int port = 9090;
-	//private Scanner console;
-	
-	ClienteThreadEnvia threadEnvia = null;
-	
+	ClienteThreadEnvia threadEnvia =  null; 
+		
 	String nomeCliente = "";
 	String MsgRecebida= "a";
 	String MsgEnviada= "b";
@@ -27,26 +23,17 @@ public class Cliente extends Thread {
 	
 	HashMap<String,Object> dadosPartida = new HashMap<String,Object>();
 	
-	public Cliente(){
+	public Cliente(String nomeCliente){
 		try {
 			socket = new Socket("localhost", port);
+			threadEnvia = new ClienteThreadEnvia(this);
 			
-			setNomeCliente("Cliente-" + new Random().nextInt(1000));
+			setNomeCliente(nomeCliente);
 			System.out.println(getNomeCliente() + " Conectado....");
-
-			//console = new Scanner(System.in);
 
 			inicializacao();
 			
 			this.start();
- 
-			/*
-			while(true){
-				this.setMsgEnviada(console.nextLine());	
-				Utils.enviaPacote(socket, this.pacotecliente());
-			}
-			*/
-			threadEnvia =  new ClienteThreadEnvia(this);
 			threadEnvia.start();
 			
 		} catch(Exception e){
@@ -121,6 +108,6 @@ public class Cliente extends Thread {
 	
 	
 	public static void main(String args[]){
-		new Cliente(); 
+		new Cliente("Cliente-" + new Random().nextInt(1000)); 
 	}
 }

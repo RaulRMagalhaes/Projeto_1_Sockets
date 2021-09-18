@@ -32,8 +32,6 @@ public class Transmissao extends Thread {
 			try {
 				dadosPartida = Utils.recebePacote(recebe);
 				
-				//MsgRecebida = dadosPartida.get(Utils.NOME_CLIENTE) + ": " + dadosPartida.get(Utils.MSG_CLIENTE); // printa no servidor apenas para saber de quem é a mensagem recebida
-				//System.out.println(MsgRecebida); //visualizar a mensagem chegando no servidor
 				System.out.println(dadosPartida);
 				
 				dadosPartida = converteEntradaParaSaida(dadosPartida); //Converte os dadosCliente de A para dadosOponente de B
