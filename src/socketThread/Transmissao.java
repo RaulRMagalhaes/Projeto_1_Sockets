@@ -1,7 +1,5 @@
 package socketThread;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.HashMap;
@@ -10,8 +8,9 @@ import Utils.*;
 
 public class Transmissao extends Thread {
 	
-	private DataOutputStream fluxoSaida = null;
-	private DataInputStream fluxoEntrada  = null;
+	Socket recebe;
+	Socket envia;
+	
 	public String MsgEnviada = "";
 	public String MsgRecebida = "";
 	public String nameCliente = "";	
@@ -22,48 +21,45 @@ public class Transmissao extends Thread {
 	HashMap<String,Object> dadosPartida = new HashMap<String,Object>();
 	
 	public Transmissao(Socket recebe,Socket envia) {
-		try {
-			fluxoEntrada = new DataInputStream(recebe.getInputStream());
-			fluxoSaida = new DataOutputStream(envia.getOutputStream());
-			
-			pacoteRecebido = fluxoEntrada.readUTF();
-			dadosPartida = Utils.stringToHashmap(pacoteRecebido);
-			setNameCliente(dadosPartida.get("nomeCliente").toString());  //AQUI EU DEVO SALVAR OS DADOS DE UM CLIENTE NO SERVIDOR...
-			
-			System.out.println("Conexão Estabelecida com cliente: " + getNameCliente() + "\n");
-			 
-			this.start();
-			
-		} catch (IOException e) {
-			System.out.println("Erro ao receber mensagem do " + getNameCliente());
-		}
+		this.recebe = recebe;
+		this.envia = envia;
+		 
+		this.start();
 	}
 
 	public void run(){  
+		while(true){		
 			try {
-				while(true){
-					pacoteRecebido = fluxoEntrada.readUTF();
-					dadosPartida = Utils.stringToHashmap(pacoteRecebido);
-					
-					MsgRecebida = dadosPartida.get(Utils.NOME_CLIENTE) + ": " + dadosPartida.get(Utils.MSG_CLIENTE); // printa no servidor apenas para saber de quem é a mensagem recebida
-					System.out.println(MsgRecebida); //visualizar a mensagem chegando no servidor
-					
-					//Converte os dadosCliente de A para dadosOponente de B
-					dadosPartida.replace(Utils.NOME_OPONENTE, dadosPartida.get(Utils.NOME_CLIENTE));
-					dadosPartida.replace(Utils.MSG_OPONENTE, dadosPartida.get(Utils.MSG_CLIENTE));
-					dadosPartida.replace(Utils.PONTOS_OPONENTE, dadosPartida.get(Utils.PONTOS_CLIENTE));
-					
-					dadosPartida.replace(Utils.NOME_CLIENTE, " ");
-					dadosPartida.replace(Utils.MSG_CLIENTE, " ");
-					dadosPartida.replace(Utils.MSG_CLIENTE, " ");
-					
-					pacoteEnviar = Utils.hashmapToString(dadosPartida);
-					fluxoSaida.writeUTF(pacoteEnviar);
-					fluxoSaida.flush();
-				}
+				dadosPartida = Utils.recebePacote(recebe);
+				
+				System.out.println(dadosPartida);
+				
+				dadosPartida = converteEntradaParaSaida(dadosPartida); //Converte os dadosCliente de A para dadosOponente de B
+				
 			} catch (IOException e) {
-				System.out.println(nameCliente + "saiu ou Erro de comunicação");
+				
+				System.out.println("Alguem teve problemas de conexao ou abandonou a partida" );				
+				dadosPartida = msgErro("Seu oponende teve problemas de conexao ou abandonou a partida");
+				
+				try { 
+					Utils.enviaPacote(envia, dadosPartida);
+					recebe.close();
+				} catch (Exception e1) { }
+				
+				break;
 			}
+
+
+				
+			try { 
+				Utils.enviaPacote(envia, dadosPartida);
+			} catch (IOException e) { 
+				System.out.println("Erro ao enviar pacotes");
+				break;
+			}
+
+		}
+		
 	}
 	
 	public void setNameCliente(String nameCliente) {
@@ -88,5 +84,32 @@ public class Transmissao extends Thread {
 
 	public void setMsgEnviada(String msgEnviada) {
 		MsgEnviada = msgEnviada;
+	}
+	
+	private HashMap<String,Object> converteEntradaParaSaida(HashMap<String,Object> pacote) {
+		//Converte os dadosCliente de A para dadosOponente de B
+		pacote.replace(Utils.NOME_OPONENTE, pacote.get(Utils.NOME_CLIENTE));
+		pacote.replace(Utils.MSG_OPONENTE, pacote.get(Utils.MSG_CLIENTE));
+		pacote.replace(Utils.PONTOS_OPONENTE, pacote.get(Utils.PONTOS_CLIENTE));
+		
+		pacote.replace(Utils.NOME_CLIENTE, " ");
+		pacote.replace(Utils.MSG_CLIENTE, " ");
+		pacote.replace(Utils.PONTOS_CLIENTE, " ");
+		
+		return pacote;
+	}
+	
+	private HashMap<String,Object> msgErro(String mensagem) {
+		HashMap<String,Object> Partida = new HashMap<String,Object>();
+
+		Partida.put(Utils.NOME_CLIENTE, " ");
+		Partida.put(Utils.MSG_CLIENTE, " ");
+		Partida.put(Utils.PONTOS_CLIENTE, 100);
+		
+		Partida.put(Utils.NOME_OPONENTE, " ");
+		Partida.put(Utils.MSG_OPONENTE, mensagem);
+		Partida.put(Utils.PONTOS_OPONENTE, " ");
+				
+		return Partida;
 	}
 }

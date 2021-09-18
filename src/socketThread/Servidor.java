@@ -10,10 +10,10 @@ public class Servidor extends Thread {
 	public Servidor(){
 		try {
 			servidor = new ServerSocket(port);
-			System.out.println("Servidor iniciado. Aguardando conexão...");
+			System.out.println("Servidor iniciado. Aguardando conexão... \n");
 			
 			while (true) {
-				new CanalClienteServidorCliente(servidor);
+				new Partida(servidor);
 			}
 			
 		} catch(Exception e){
